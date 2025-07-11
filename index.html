@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative Mitra - AI Chatbot Agency</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0066FF',
+                        secondary: '#00CCFF',
+                        dark: '#111827',
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                        poppins: ['Poppins', 'sans-serif'],
+                    },
+                },
+            },
+        }
+    </script>
+    <style id="app-style">
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #0066FF, #00CCFF);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .btn-primary {
+            background: linear-gradient(90deg, #0066FF, #00CCFF);
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 102, 255, 0.2);
+        }
+        .btn-secondary {
+            border: 2px solid #0066FF;
+            color: #0066FF;
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover {
+            background-color: rgba(0, 102, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        .service-card {
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .use-case {
+            transition: all 0.3s ease;
+        }
+        .use-case:hover {
+            transform: translateY(-5px);
+        }
+        .animated-bg {
+            background: linear-gradient(-45deg, #ffffff, #f0f9ff, #e6f7ff, #f0f9ff);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .feature-icon {
+            background: linear-gradient(135deg, rgba(0, 102, 255, 0.1), rgba(0, 204, 255, 0.1));
+        }
+        .nav-link {
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background: linear-gradient(90deg, #0066FF, #00CCFF);
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .accordion-header {
+            cursor: pointer;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        .accordion-content.active {
+            max-height: 200px;
+        }
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            z-index: -1;
+            opacity: 0.4;
+        }
+        .blob-1 {
+            width: 400px;
+            height: 400px;
+            background: rgba(0, 102, 255, 0.15);
+            top: 10%;
+            right: -100px;
+        }
+        .blob-2 {
+            width: 300px;
+            height: 300px;
+            background: rgba(0, 204, 255, 0.15);
+            bottom: 20%;
+            left: -100px;
+        }
+        .chat-demo {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .chat-header {
+            background: linear-gradient(90deg, #0066FF, #00CCFF);
+            color: white;
+            padding: 15px 20px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        .chat-message {
+            margin: 10px;
+            padding: 10px 15px;
+            border-radius: 20px;
+            max-width: 80%;
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .user-message {
+            background-color: #f0f0f0;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+        .bot-message {
+            background: linear-gradient(90deg, rgba(0, 102, 255, 0.1), rgba(0, 204, 255, 0.1));
+            margin-right: auto;
+            border-bottom-left-radius: 5px;
+        }
+        .typing-indicator {
+            display: flex;
+            padding: 10px 15px;
+        }
+        .typing-indicator span {
+            height: 8px;
+            width: 8px;
+            background-color: #0066FF;
+            border-radius: 50%;
+            margin: 0 3px;
+            opacity: 0.6;
+        }
+        .typing-indicator span:nth-child(1) {
+            animation: bounce 1s infinite 0.1s;
+        }
+        .typing-indicator span:nth-child(2) {
+            animation: bounce 1s infinite 0.3s;
+        }
+        .typing-indicator span:nth-child(3) {
+            animation: bounce 1s infinite 0.5s;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-800 overflow-x-hidden">
+    <!-- Background blobs -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-white bg-opacity-90 backdrop-filter backdrop-blur-lg z-50 shadow-sm">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <h1 class="text-2xl font-bold font-poppins">
+                    <span class="gradient-text">Creative Mitra</span>
+                </h1>
+            </div>
+            <div class="hidden md:flex space-x-8 font-medium">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#services" class="nav-link">Services</a>
+                <a href="#use-cases" class="nav-link">Use Cases</a>
+                <a href="#pricing" class="nav-link">Pricing</a>
+                <a href="#faq" class="nav-link">FAQ</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-gray-800 focus:outline-none">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden bg-white md:hidden w-full">
+            <div class="container mx-auto px-4 py-4 flex flex-col space-y-4">
+                <a href="#home" class="block py-2 hover:text-primary">Home</a>
+                <a href="#about" class="block py-2 hover:text-primary">About</a>
+                <a href="#services" class="block py-2 hover:text-primary">Services</a>
+                <a href="#use-cases" class="block py-2 hover:text-primary">Use Cases</a>
+                <a href="#pricing" class="block py-2 hover:text-primary">Pricing</a>
+                <a href="#faq" class="block py-2 hover:text-primary">FAQ</a>
+                <a href="#contact" class="block py-2 hover:text-primary">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="pt-28 pb-20 min-h-screen flex items-center relative animated-bg">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0">
+                    <div class="text-sm uppercase tracking-widest text-primary font-semibold mb-4">
+                        Your AI Chatbot Partner for Smarter Customer Engagement
+                    </div>
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold font-poppins leading-tight mb-6">
+                        Custom AI Chatbots That <span class="gradient-text">Talk Like Your Best Salesperson</span>
+                    </h1>
+                    <p class="text-xl text-gray-600 mb-8 max-w-lg">
+                        We build trained bots that generate leads, answer FAQs, and support your customers 24/7.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#contact" class="btn-primary text-white font-medium px-8 py-3 rounded-lg">
+                            Get a Free Demo
+                        </a>
+                        <a href="#pricing" class="btn-secondary font-medium px-8 py-3 rounded-lg">
+                            View Pricing
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="md:w-1/2 px-4">
+                    <div class="chat-demo w-full max-w-md mx-auto">
+                        <div class="chat-header flex items-center">
+                            <div class="w-3 h-3 bg-red-500 rounded-full mr-2"></div>
+                            <div class="w-3 h-3 bg-yellow-500 rounded-full mr-2"></div>
+                            <div class="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
+                            <span class="ml-2 font-medium">Creative Mitra AI</span>
+                        </div>
+                        <div class="chat-body bg-white p-4" style="height: 350px;">
+                            <div class="bot-message chat-message">
+                                <p>👋 Hi there! I'm CreativeBot, your AI assistant from Creative Mitra. How can I help your business today?</p>
+                            </div>
+                            <div class="user-message chat-message">
+                                <p>I need help with customer support automation.</p>
+                            </div>
+                            <div class="bot-message chat-message">
+                                <p>Great choice! Our AI chatbots can handle customer inquiries 24/7, reducing your support tickets by up to 70%. Would you like to see a demo of how it works?</p>
+                            </div>
+                            <div class="user-message chat-message">
+                                <p>Yes, please show me!</p>
+                            </div>
+                            <div class="bot-message chat-message">
+                                <p>Awesome! I can help answer product questions, troubleshoot common issues, and even escalate to your team when human touch is needed. Here's how it works...</p>
+                            </div>
+                            <div class="typing-indicator bot-message">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                        <div class="chat-input bg-gray-100 p-3 flex items-center">
+                            <input type="text" placeholder="Type your message..." class="w-full bg-white rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+                            <button class="ml-2 bg-primary text-white rounded-full w-10 h-10 flex items-center justify-center">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feature Highlights Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 font-poppins">Key Features</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <!-- Feature 1 -->
+                <div class="feature p-8 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all">
+                    <div class="feature-icon w-16 h-16 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-robot text-3xl text-primary"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">🤖 Smart AI Training</h3>
+                    <p class="text-gray-600">
+                        Our chatbots learn your business inside out, capturing your brand voice and knowledge base to deliver accurate responses every time.
+                    </p>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="feature p-8 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all">
+                    <div class="feature-icon w-16 h-16 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-bullseye text-3xl text-primary"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">🎯 Chat-based Lead Capture</h3>
+                    <p class="text-gray-600">
+                        Turn conversations into conversions with intelligent lead capture flows that qualify prospects through natural dialogue.
+                    </p>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="feature p-8 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all">
+                    <div class="feature-icon w-16 h-16 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-paint-brush text-3xl text-primary"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">✨ Aesthetic Branding</h3>
+                    <p class="text-gray-600">
+                        Make your bot an extension of your brand with custom styling, animations, and personalized conversation flows.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-20">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 font-poppins">What Our Clients Say</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="bg-white p-8 rounded-xl shadow hover:shadow-lg transition-all">
+                    <div class="text-yellow-400 mb-4">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-gray-600 mb-6">
+                        "Our AI chatbot from Creative Mitra has reduced customer response times by 80% and handles over 65% of all inquiries without human intervention."
+                    </p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-gray-200 rounded-full overflow-hidden mr-4">
+                            <img src="https://cdn.pixabay.com/photo/2018/08/28/13/29/avatar-3637561_960_720.png" alt="Client" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Sarah Johnson</h4>
+                            <p class="text-sm text-gray-500">CMO, TechVantage</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="bg-white p-8 rounded-xl shadow hover:shadow-lg transition-all">
+                    <div class="text-yellow-400 mb-4">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-gray-600 mb-6">
+                        "The lead generation chatbot has transformed our business. We've seen a 40% increase in qualified leads and our sales team loves the pre-qualified handoffs."
+                    </p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-gray-200 rounded-full overflow-hidden mr-4">
+                            <img src="https://cdn.pixabay.com/photo/2017/02/23/13/05/avatar-2092113_960_720.png" alt="Client" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Michael Chen</h4>
+                            <p class="text-sm text-gray-500">Founder, GrowthStack</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 3 -->
+                <div class="bg-white p-8 rounded-xl shadow hover:shadow-lg transition-all">
+                    <div class="text-yellow-400 mb-4">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <p class="text-gray-600 mb-6">
+                        "Creative Mitra delivered a chatbot that perfectly matches our brand voice. Our customers often don't realize they're talking to an AI until we tell them!"
+                    </p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-gray-200 rounded-full overflow-hidden mr-4">
+                            <img src="https://cdn.pixabay.com/photo/2014/03/25/16/54/user-297566_960_720.png" alt="Client" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Amanda Torres</h4>
+                            <p class="text-sm text-gray-500">Director of CX, Bloom Retail</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0">
+                    <img src="https://cdn.pixabay.com/photo/2021/07/02/04/48/team-6380292_960_720.jpg" alt="Creative Mitra Team" class="rounded-xl shadow-lg w-full h-auto">
+                </div>
+                
+                <div class="md:w-1/2 md:pl-16">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6 font-poppins">Who We Are</h2>
+                    <p class="text-gray-600 mb-8 text-lg">
+                        At Creative Mitra, we're not just bot builders. We're a support system for your business. Our team is passionate about turning complex automation into beautifully branded, high-performing AI assistants.
+                    </p>
+                    
+                    <div class="bg-white p-6 rounded-xl shadow mb-8">
+                        <h3 class="text-xl font-bold mb-3">Our Vision</h3>
+                        <p class="text-gray-600 italic">
+                            "To give growing businesses the power of AI-backed customer engagement, styled with aesthetic perfection."
+                        </p>
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-6">
+                        <div class="flex items-center">
+                            <div class="bg-primary bg-opacity-10 w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-check text-primary"></i>
+                            </div>
+                            <p class="font-medium">7+ Years Experience</p>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="bg-primary bg-opacity-10 w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-check text-primary"></i>
+                            </div>
+                            <p class="font-medium">200+ Clients Served</p>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="bg-primary bg-opacity-10 w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-check text-primary"></i>
+                            </div>
+                            <p class="font-medium">24/7 Support</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-20">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 font-poppins">Our Services</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    Choose the perfect AI chatbot solution for your business needs with our customizable service packages.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Basic -->
+                <div class="service-card bg-white rounded-xl overflow-hidden shadow-lg border border-gray-100">
+                    <div class="bg-gray-50 py-6 px-6">
+                        <h3 class="text-2xl font-bold mb-1">Basic</h3>
+                        <div class="flex items-end">
+                            <span class="text-3xl font-bold">$699</span>
+                            <span class="text-gray-500 ml-2">one-time</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                                <span>Custom-trained bot (up to 50 Q/A)</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                                <span>Aesthetic Branding & Styling</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                                <span>Website Integration</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                                <span>30 Days Support</span>
+                            </li>
+                        </ul>
+                        <a href="#contact" class="block btn-primary text-center text-white font-medium px-6 py-3 rounded-lg w-full">
+                            Book Now
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Advanced -->
+                <div class="service-card bg-white rounded-xl overflow-hidden shadow-lg border border-primary border-2 relative transform scale-105">
+                    <div class="absolute top-0 right-0 bg-primary text-white px-4 py-1 text-sm font-medium">
+                        POPULAR
+                    </div>
+                    <div class="bg-primary bg-opacity-5 py-6 px-6">
+                        <h3 class="text-2xl font-bold mb-1">Advanced</h3>
+                        <div class="flex items-end">
+                            <span class="text-3xl font-bold">$1099</span>
+                            <span class="text-gray-500 ml-2">one-time</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                                <span>Unlimited Q/A</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                                <span>Smart FAQ</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                                <span>Aesthetic Branding & Styling</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                                <span>Website & Social Media Integration</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                                <span>60 Days Support</span>
+                            </li>
+                        </ul>
+                        <a href="#contact" class="block btn-primary text-center text-white font-medium px-6 py-3 rounded-lg w-full">
+                            Book Now
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Premium -->
+                <div class="service-card bg-white rounded-xl overflow-hidden shadow-lg border border-gray-100">
+                    <div class="bg-gray-50 py-6 px-6">
+                        <h3 class="text-2xl font-bold mb-1">Premium</h3>
+                        <div class="flex items-end">
+                            <span class="text-3xl font-bold">$1999</span>
+                            <span class="text-gray-500 ml-2">one-time</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                                <span>Chat-based lead generation system</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                                <span>Unlimited Q/A</span>
+                            </li>
+<li class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                                <span>Smart FAQ</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                                <span>Aesthetic Branding & Styling</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                                <span>Multi-platform Integration</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                                <span>90 Days Support</span>
+                            </li>
+                        </ul>
+                        <a href="#contact" class="block btn-primary text-center text-white font-medium px-6 py-3 rounded-lg w-full">
+                            Book Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Cases Section -->
+    <section id="use-cases" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 font-poppins">Use Cases</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    Discover how our AI chatbots can transform different aspects of your business operations.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <!-- Use Case 1 -->
+                <div class="use-case bg-white p-8 rounded-xl shadow">
+                    <div class="w-16 h-16 bg-primary bg-opacity-10 rounded-lg flex items-center justify-center mb-6">
+                        <i class="fas fa-magnet text-2xl text-primary"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">🧲 Lead Generation</h3>
+                    <p class="text-gray-600 mb-6">
+                        Bot captures lead info and nurtures cold leads with chat logic. Qualify prospects through natural conversation and handoff to your sales team at the perfect moment.
+                    </p>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="font-medium text-primary">Results:</p>
+                        <p class="text-sm">Generated 500+ leads with one bot</p>
+                    </div>
+                </div>
+                
+                <!-- Use Case 2 -->
+                <div class="use-case bg-white p-8 rounded-xl shadow">
+                    <div class="w-16 h-16 bg-primary bg-opacity-10 rounded-lg flex items-center justify-center mb-6">
+                        <i class="fas fa-question-circle text-2xl text-primary"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">❓ FAQ Automation</h3>
+                    <p class="text-gray-600 mb-6">
+                        Handles repetitive queries in real-time. Our smart bots learn from your knowledge base to answer common questions instantly, freeing your team for more complex issues.
+                    </p>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="font-medium text-primary">Results:</p>
+                        <p class="text-sm">Reduced support tickets by 65%</p>
+                    </div>
+                </div>
+                
+                <!-- Use Case 3 -->
+                <div class="use-case bg-white p-8 rounded-xl shadow">
+                    <div class="w-16 h-16 bg-primary bg-opacity-10 rounded-lg flex items-center justify-center mb-6">
+                        <i class="fas fa-comments text-2xl text-primary"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">💬 Customer Support</h3>
+                    <p class="text-gray-600 mb-6">
+                        24/7 support assistant to reduce ticket load. Our bots handle customer inquiries around the clock, providing instant responses and escalating complex issues to your team.
+                    </p>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="font-medium text-primary">Results:</p>
+                        <p class="text-sm">Saved 30+ hours/week in support</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-20">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 font-poppins">Pricing</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    Transparent pricing with no hidden fees. Choose the plan that works best for your business needs.
+                </p>
+            </div>
+            
+            <div class="mb-8 flex justify-center">
+                <div class="bg-gray-100 p-1 rounded-lg inline-flex">
+                    <button id="one-time-toggle" class="px-4 py-2 rounded-md bg-white shadow text-primary font-medium">One-time Payment</button>
+                    <button id="subscription-toggle" class="px-4 py-2 rounded-md text-gray-600 font-medium">Monthly Subscription</button>
+                </div>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full bg-white rounded-xl overflow-hidden shadow-lg">
+                    <thead>
+                        <tr class="bg-gray-50">
+                            <th class="py-4 px-6 text-left">Plan</th>
+                            <th class="py-4 px-6 text-left">Price</th>
+                            <th class="py-4 px-6 text-left">Questions</th>
+                            <th class="py-4 px-6 text-left">Smart FAQ</th>
+                            <th class="py-4 px-6 text-left">Lead Capture</th>
+                            <th class="py-4 px-6 text-left">Branding</th>
+                            <th class="py-4 px-6 text-left"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-gray-100">
+                            <td class="py-4 px-6 font-medium">Basic</td>
+                            <td class="py-4 px-6 price-cell">$699</td>
+                            <td class="py-4 px-6">50</td>
+                            <td class="py-4 px-6"><i class="fas fa-times text-red-500"></i></td>
+<td class="py-4 px-6"><i class="fas fa-times text-red-500"></i></td>
+                            <td class="py-4 px-6"><i class="fas fa-check text-green-500"></i></td>
+                            <td class="py-4 px-6">
+                                <a href="#contact" class="text-primary font-medium hover:underline">Get Started</a>
+                            </td>
+                        </tr>
+                        <tr class="border-b border-gray-100 bg-primary bg-opacity-5">
+                            <td class="py-4 px-6 font-medium">Advanced</td>
+                            <td class="py-4 px-6 price-cell">$1099</td>
+                            <td class="py-4 px-6">Unlimited</td>
+                            <td class="py-4 px-6"><i class="fas fa-check text-green-500"></i></td>
+                            <td class="py-4 px-6"><i class="fas fa-times text-red-500"></i></td>
+                            <td class="py-4 px-6"><i class="fas fa-check text-green-500"></i></td>
+                            <td class="py-4 px-6">
+                                <a href="#contact" class="text-primary font-medium hover:underline">Get Started</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-4 px-6 font-medium">Premium</td>
+                            <td class="py-4 px-6 price-cell">$1999</td>
+                            <td class="py-4 px-6">Unlimited</td>
+                            <td class="py-4 px-6"><i class="fas fa-check text-green-500"></i></td>
+                            <td class="py-4 px-6"><i class="fas fa-check text-green-500"></i></td>
+                            <td class="py-4 px-6"><i class="fas fa-check text-green-500"></i></td>
+                            <td class="py-4 px-6">
+                                <a href="#contact" class="text-primary font-medium hover:underline">Get Started</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="mt-10 text-center">
+                <p class="text-gray-500">Need a custom solution? <a href="#contact" class="text-primary font-medium hover:underline">Contact us</a> for personalized pricing.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 font-poppins">Frequently Asked Questions</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    Find answers to common questions about our AI chatbot solutions.
+                </p>
+            </div>
+            
+            <div class="max-w-3xl mx-auto">
+                <div class="accordion">
+                    <!-- FAQ Item 1 -->
+                    <div class="accordion-item bg-white mb-4 rounded-lg overflow-hidden shadow">
+                        <div class="accordion-header flex justify-between items-center p-5 cursor-pointer">
+                            <h3 class="font-medium">What platform are your bots built on?</h3>
+                            <i class="fas fa-chevron-down text-gray-400 transition-transform"></i>
+                        </div>
+                        <div class="accordion-content bg-gray-50 px-5 py-0">
+                            <div class="py-4">
+                                <p class="text-gray-600">
+                                    Our AI chatbots are built on a proprietary platform that combines the power of leading AI models with our custom training algorithms. This allows us to create highly personalized and effective solutions tailored to your specific business needs.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ Item 2 -->
+                    <div class="accordion-item bg-white mb-4 rounded-lg overflow-hidden shadow">
+                        <div class="accordion-header flex justify-between items-center p-5 cursor-pointer">
+                            <h3 class="font-medium">Can I use the bot on my website or WhatsApp?</h3>
+                            <i class="fas fa-chevron-down text-gray-400 transition-transform"></i>
+                        </div>
+                        <div class="accordion-content bg-gray-50 px-5 py-0">
+                            <div class="py-4">
+                                <p class="text-gray-600">
+                                    Yes! Our chatbots are designed to be platform-agnostic and can be integrated with your website, WhatsApp Business API, Facebook Messenger, and other popular communication channels. We provide seamless integration support for all major platforms.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ Item 3 -->
+                    <div class="accordion-item bg-white mb-4 rounded-lg overflow-hidden shadow">
+                        <div class="accordion-header flex justify-between items-center p-5 cursor-pointer">
+                            <h3 class="font-medium">Do you offer support after delivery?</h3>
+                            <i class="fas fa-chevron-down text-gray-400 transition-transform"></i>
+                        </div>
+                        <div class="accordion-content bg-gray-50 px-5 py-0">
+                            <div class="py-4">
+                                <p class="text-gray-600">
+                                    Absolutely! We provide ongoing support for 30 to 90 days after delivery, depending on your chosen package. Additionally, we offer optional maintenance plans for clients who want extended support and regular updates to their chatbot's knowledge base.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ Item 4 -->
+                    <div class="accordion-item bg-white mb-4 rounded-lg overflow-hidden shadow">
+                        <div class="accordion-header flex justify-between items-center p-5 cursor-pointer">
+                            <h3 class="font-medium">How long does bot setup take?</h3>
+                            <i class="fas fa-chevron-down text-gray-400 transition-transform"></i>
+                        </div>
+                        <div class="accordion-content bg-gray-50 px-5 py-0">
+                            <div class="py-4">
+                                <p class="text-gray-600">
+                                    The typical implementation timeline is 2-3 weeks, including training, customization, and integration. Basic chatbots can be deployed faster, while more complex solutions with extensive training may take a bit longer. We'll provide you with a specific timeline during our initial consultation.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ Item 5 -->
+                    <div class="accordion-item bg-white mb-4 rounded-lg overflow-hidden shadow">
+                        <div class="accordion-header flex justify-between items-center p-5 cursor-pointer">
+                            <h3 class="font-medium">Can the chatbot integrate with my CRM system?</h3>
+                            <i class="fas fa-chevron-down text-gray-400 transition-transform"></i>
+                        </div>
+                        <div class="accordion-content bg-gray-50 px-5 py-0">
+<div class="py-4">
+                                <p class="text-gray-600">
+                                    Yes, our chatbots can integrate with popular CRM systems like Salesforce, HubSpot, Zoho, and others. This allows for seamless lead data transfer and customer information management. Custom integrations for specific systems are available upon request.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-gradient-to-r from-primary to-secondary text-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6 font-poppins">Ready to Transform Your Customer Engagement?</h2>
+            <p class="text-xl mb-10 max-w-2xl mx-auto opacity-90">
+                Let our AI chatbots handle your customer service, lead generation, and FAQs 24/7.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#contact" class="bg-white text-primary font-medium px-8 py-3 rounded-lg hover:shadow-lg transition-all transform hover:-translate-y-1">
+                    Get Started Today
+                </a>
+                <a href="#services" class="border-2 border-white text-white font-medium px-8 py-3 rounded-lg hover:bg-white hover:bg-opacity-10 transition-all">
+                    View Services
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20">
+        <div class="container mx-auto px-4">
+            <div class="max-w-5xl mx-auto">
+                <div class="flex flex-col md:flex-row">
+                    <div class="md:w-2/5 mb-10 md:mb-0">
+                        <h2 class="text-3xl md:text-4xl font-bold mb-6 font-poppins">Let's build your AI assistant together</h2>
+                        <p class="text-gray-600 mb-8">
+                            Fill out the form and our team will get back to you within 24 hours to discuss your AI chatbot needs.
+                        </p>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-center">
+                                <div class="w-12 h-12 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mr-4">
+                                    <i class="fas fa-envelope text-primary"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500">Email us at</p>
+                                    <p class="font-medium">hello@creativemitra.com</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center">
+                                <div class="w-12 h-12 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mr-4">
+                                    <i class="fas fa-phone text-primary"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500">Call us at</p>
+                                    <p class="font-medium">+1 (555) 123-4567</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center">
+                                <div class="w-12 h-12 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mr-4">
+                                    <i class="fab fa-whatsapp text-primary"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500">WhatsApp</p>
+                                    <p class="font-medium">+1 (555) 987-6543</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="md:w-3/5 md:pl-10">
+                        <form id="contact-form" class="bg-white p-8 rounded-xl shadow-lg">
+                            <div class="mb-6">
+                                <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                                <input type="text" id="name" name="name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Your name" required>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                                <input type="email" id="email" name="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder="your@email.com" required>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label for="business" class="block text-sm font-medium text-gray-700 mb-2">Business Type</label>
+                                <select id="business" name="business" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
+                                    <option value="">Select your business type</option>
+                                    <option value="ecommerce">E-commerce</option>
+                                    <option value="saas">SaaS</option>
+                                    <option value="agency">Agency/Service Business</option>
+                                    <option value="education">Education</option>
+                                    <option value="healthcare">Healthcare</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label for="message" class="block text-sm font-medium text-gray-700 mb-2">Message</label>
+                                <textarea id="message" name="message" rows="5" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Tell us about your project and requirements"></textarea>
+                            </div>
+                            
+                            <div class="flex items-center mb-6">
+                                <input type="checkbox" id="subscribe" name="subscribe" class="h-5 w-5 text-primary focus:ring-primary border-gray-300 rounded">
+<label for="subscribe" class="ml-2 text-sm text-gray-700">Subscribe to our newsletter for AI trends & tips</label>
+                            </div>
+                            
+                            <button type="submit" class="w-full btn-primary text-white font-medium px-6 py-3 rounded-lg">
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
+                <div>
+                    <h3 class="text-xl font-bold mb-6 gradient-text">Creative Mitra</h3>
+                    <p class="text-gray-400 mb-6">
+                        Your AI Chatbot Partner for Smarter Customer Engagement
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="javascript:void(0)" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="javascript:void(0)" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="javascript:void(0)" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="javascript:void(0)" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-medium mb-6">Services</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="#services" class="hover:text-white transition-colors">Basic Chatbot</a></li>
+                        <li><a href="#services" class="hover:text-white transition-colors">Advanced Chatbot</a></li>
+                        <li><a href="#services" class="hover:text-white transition-colors">Premium Chatbot</a></li>
+                        <li><a href="#contact" class="hover:text-white transition-colors">Custom Solutions</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-medium mb-6">Company</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="#about" class="hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="#use-cases" class="hover:text-white transition-colors">Use Cases</a></li>
+                        <li><a href="javascript:void(0)" class="hover:text-white transition-colors">Careers</a></li>
+                        <li><a href="javascript:void(0)" class="hover:text-white transition-colors">Blog</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-medium mb-6">Help</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="#faq" class="hover:text-white transition-colors">FAQ</a></li>
+                        <li><a href="#contact" class="hover:text-white transition-colors">Contact</a></li>
+                        <li><a href="javascript:void(0)" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="javascript:void(0)" class="hover:text-white transition-colors">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8 mt-8 text-center text-gray-500 text-sm">
+                <p>&copy; 2025 Creative Mitra. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script id="app-script">
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const target = document.querySelector(targetId);
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    document.getElementById('mobile-menu').classList.add('hidden');
+                }
+            });
+        });
+        
+        // FAQ accordion functionality
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', function() {
+                const content = this.nextElementSibling;
+                const icon = this.querySelector('i');
+                
+                if (content.classList.contains('active')) {
+                    content.classList.remove('active');
+                    icon.classList.remove('transform', 'rotate-180');
+                } else {
+                    // Close all other accordions
+                    document.querySelectorAll('.accordion-content').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    document.querySelectorAll('.accordion-header i').forEach(i => {
+                        i.classList.remove('transform', 'rotate-180');
+                    });
+                    
+                    // Open this accordion
+                    content.classList.add('active');
+                    icon.classList.add('transform', 'rotate-180');
+                }
+            });
+        });
+        
+        // Pricing toggle
+        const oneTimeToggle = document.getElementById('one-time-toggle');
+        const subscriptionToggle = document.getElementById('subscription-toggle');
+const priceCells = document.querySelectorAll('.price-cell');
+        
+        const oneTimePrices = ['$699', '$1099', '$1999'];
+        const subscriptionPrices = ['$69/mo', '$109/mo', '$199/mo'];
+        
+        oneTimeToggle.addEventListener('click', function() {
+            oneTimeToggle.classList.add('bg-white', 'shadow', 'text-primary');
+            oneTimeToggle.classList.remove('text-gray-600');
+            subscriptionToggle.classList.remove('bg-white', 'shadow', 'text-primary');
+            subscriptionToggle.classList.add('text-gray-600');
+            
+            priceCells.forEach((cell, index) => {
+                cell.textContent = oneTimePrices[index];
+            });
+        });
+        
+        subscriptionToggle.addEventListener('click', function() {
+            subscriptionToggle.classList.add('bg-white', 'shadow', 'text-primary');
+            subscriptionToggle.classList.remove('text-gray-600');
+            oneTimeToggle.classList.remove('bg-white', 'shadow', 'text-primary');
+            oneTimeToggle.classList.add('text-gray-600');
+            
+            priceCells.forEach((cell, index) => {
+                cell.textContent = subscriptionPrices[index];
+            });
+        });
+        
+        // Contact form submission
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const business = document.getElementById('business').value;
+            const message = document.getElementById('message').value;
+            const subscribe = document.getElementById('subscribe').checked;
+            
+            // Simulate form submission
+            const submitButton = this.querySelector('button[type="submit"]');
+            const originalText = submitButton.textContent;
+            
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Sending...';
+            
+            setTimeout(() => {
+                alert('Thank you for your message! This is a prototype, and in the full version, your message would be sent to our team.');
+                
+                // Reset form
+                this.reset();
+                submitButton.disabled = false;
+                submitButton.textContent = originalText;
+            }, 1500);
+        });
+        
+        // Chat demo animation
+        const chatMessages = [
+            { type: 'bot', text: "👋 Hi there! I'm CreativeBot, your AI assistant from Creative Mitra. How can I help your business today?" },
+            { type: 'user', text: "I need help with customer support automation." },
+            { type: 'bot', text: "Great choice! Our AI chatbots can handle customer inquiries 24/7, reducing your support tickets by up to 70%. Would you like to see a demo of how it works?" },
+            { type: 'user', text: "Yes, please show me!" },
+            { type: 'bot', text: "Awesome! I can help answer product questions, troubleshoot common issues, and even escalate to your team when human touch is needed. Here's how it works..." }
+        ];
+    </script>
+</body>
+</html>
